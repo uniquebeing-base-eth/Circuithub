@@ -1,0 +1,17 @@
+{
+  "name": "circuithub",
+  "version": "1.0.0",
+  "description": "Open service network for humans and AI agents",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}
