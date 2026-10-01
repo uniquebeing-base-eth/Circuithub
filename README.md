@@ -1,360 +1,228 @@
-# Circuithub
+MASTER BUILD PROMPT — OPEN SERVICE NETWORK
 
-Build: Open Service Network for Humans & AI Agents
+You are building an open service network for the agentic economy on Celo.
 
-You are the lead engineer building an open service network for the agentic economy.
+Do not treat this as a normal marketplace, directory, or frontend-heavy startup.
 
-The goal is NOT to build another consumer marketplace, travel app, food app, AI marketplace, wallet, DEX, or DeFi frontend.
+The real product is the infrastructure layer that allows humans and AI agents to discover, verify, access, compose, execute, and pay for services that already exist across the internet.
 
-We are building infrastructure that makes existing digital and real-world services discoverable, callable, composable, and payable by humans and AI agents.
+1. PRODUCT THESIS
 
-The frontend is NOT the main product. It exists primarily for documentation, developer onboarding, examples, and a basic network/service explorer.
+Services are fragmented.
 
-The core product is:
-
-Protocol + Service Registry + Discovery + Verification + API + MCP + Execution + Payment/Settlement
-
-⸻
-
-0. MAJOR REFERENCE — CELOPEDIA
-
-Before writing significant code, install and use the Celo ecosystem skills:
-
-npx skills add celo-org/celopedia-skills
-
-Treat Celopedia as a major technical reference and guide for all Celo-related decisions.
-
-Use it to investigate the current Celo ecosystem and determine:
-
-* existing Celo payment primitives
-* stablecoins available on Celo
-* Celo SDKs and libraries
-* account/wallet infrastructure
-* smart-account/account-abstraction options
-* fee abstraction
-* payment primitives
-* relevant contracts
-* existing identity infrastructure
-* existing agent infrastructure
-* existing Celo developer tooling
-* deployment options
-* RPC infrastructure
-* existing standards that should be reused
-* anything else already available that prevents us from reinventing infrastructure
-
-Do NOT invent a Celo-specific solution when an existing, documented Celo primitive already solves the problem.
-
-The principle is:
-
-Use existing infrastructure wherever possible. Build only the missing connective tissue.
-
-If Celopedia provides a recommended implementation, prefer it over inventing a new architecture.
-
-⸻
-
-1. PRODUCT VISION
-
-The internet already has thousands of services:
-
-* travel agents
-* hotels
-* airlines
-* restaurants
-* delivery companies
-* logistics providers
-* shopping providers
-* suppliers
-* freelancers
-* AI agents
-* AI model providers
-* APIs
-* local businesses
-* financial/payment services
-* other machine-accessible services
-
-But these services are fragmented across:
+They exist across:
 
 * websites
 * APIs
-* apps
+* AI agents
 * MCP servers
-* A2A agents
-* agent registries
-* different countries
-* different ecosystems
-* different payment systems
+* A2A-compatible agents
+* local businesses
+* SaaS products
+* booking systems
+* delivery platforms
+* freelancers
+* suppliers
+* digital services
+* AI inference providers
+* regional providers
+* existing marketplaces
+* existing businesses
 
-We want to create an access layer that allows humans and AI agents to discover and use those services through common interfaces.
+We do not want to replace these businesses or force them to rebuild their systems.
 
-Core idea:
+We provide the infrastructure that connects them.
 
-Human / AI Agent
-       ↓
-    API / MCP
-       ↓
-Service Discovery
-       ↓
-Verified Services
-       ↓
-Execute Request
-       ↓
-Payment / Settlement
-       ↓
-Result / Status
-
-The network does NOT need to own the underlying services.
-
-A restaurant remains a restaurant.
-
-A travel agency remains a travel agency.
-
-A logistics company remains a logistics company.
-
-An AI provider remains an AI provider.
-
-They simply become accessible to software through our network.
-
-⸻
-
-2. SIMPLE PRODUCT DESCRIPTION
-
-Use this as the internal definition of the product:
-
-An open network that makes services discoverable, callable, and payable by humans and AI agents.
-
-Another useful description:
+Core statement
 
 The service layer for the agentic economy.
 
-Do not turn this into marketing fluff in the codebase.
+One-sentence description
 
-The implementation should remain simple.
+An open network that makes services discoverable, callable, composable, and payable by humans and AI agents.
+
+The network should work even when the user does not know or care that Celo is being used.
+
+Celo should primarily provide the financial infrastructure for cheap, programmable, stable-value settlement.
 
 ⸻
 
-3. CORE PRINCIPLE
+2. CORE LOOP
 
-We are NOT trying to replace existing structures.
+The fundamental network flow is:
 
-We are simplifying access to them.
+Discover → Verify → Select → Execute → Pay
 
-For example:
+A more complete lifecycle can be:
 
-Travel
+Discover → Verify → Select → Compose → Execute → Pay → Track
 
-A user says:
+The system should allow an AI agent or human to:
 
-Book me a flight from Lagos to London.
+1. Discover available services.
+2. Inspect structured capabilities.
+3. Verify that the provider/service actually works.
+4. Compare available options.
+5. Select a provider.
+6. Compose multiple services when necessary.
+7. Execute the service.
+8. Pay the provider.
+9. Track the result.
+10. Record relevant verification/reputation information.
 
-Our network should be able to discover relevant travel agents/providers and expose them to the requesting agent.
+Do not make the network decide which provider is “best.”
 
-Food
-
-A user says:
-
-Order jollof rice and chicken and have it delivered.
-
-The requesting agent can discover food-ordering services.
-
-Video creation
-
-An agent receives:
-
-Create a 60-second promotional video.
-
-It could discover and compose:
-
-Script service
-      ↓
-Image service
-      ↓
-Voice service
-      ↓
-Video service
-      ↓
-Music service
-
-There may be many providers for each capability.
-
-The network should not permanently decide which provider is “best.”
-
-The requesting agent/user should be able to apply its own criteria:
+Return structured information such as:
 
 * price
 * availability
 * location
-* reputation
-* requirements
 * capabilities
-* response time
-* historical reliability
-* user preferences
+* requirements
+* reputation
+* latency
+* verification status
+* supported protocols
+* payment methods
+* provider information
+
+The requesting human or agent decides what to use.
 
 ⸻
 
-4. AGENTS ARE FIRST-CLASS USERS
+3. IMPORTANT PRINCIPLE
 
-Do NOT build this as a traditional website marketplace and add AI later.
+Do not reinvent existing infrastructure.
 
-AI agents must be first-class clients.
+Before implementing anything, research and reuse existing standards, protocols, SDKs, registries, and infrastructure.
 
-The primary interfaces are:
+Especially investigate:
 
-API
-
-For:
-
-* developers
-* applications
-* businesses
-* autonomous agents
-
-MCP
-
-For:
-
-* Claude
-* Codex
-* OpenClaw
-* other MCP-compatible agents
-* future agentic systems
-
-Plugin / Connector
-
-For:
-
-* browsers
-* desktop applications
-* AI clients
-* other software
-
-Mobile / Human Client
-
-A user should eventually be able to use the same network directly from a phone.
-
-The frontend website is secondary.
-
-⸻
-
-5. REFERENCE MODEL: ANTSEED
-
-Use Antseed as an architectural reference, NOT as something to copy.
-
-The useful conceptual pattern is:
-
-Discover
-   ↓
-Choose
-   ↓
-Connect
-   ↓
-Pay
-
-Our broader model is:
-
-Discover
-   ↓
-Select
-   ↓
-Compose
-   ↓
-Execute
-   ↓
-Pay
-   ↓
-Verify / Track
-
-Antseed demonstrates how services can be discovered and consumed by agents.
-
-Our scope is broader:
-
-AI services
-Travel
-Food
-Shopping
-Logistics
-Local services
-Business services
-Digital services
-Other machine-accessible services
-
-Do not copy Antseed’s implementation or proprietary behavior.
-
-Use it only as conceptual inspiration for an open service network.
-
-⸻
-
-6. DO NOT REINVENT EXISTING STANDARDS
-
-This is one of the most important requirements.
-
-Before implementing anything, search for an existing standard/protocol/library that already solves it.
-
-Potentially relevant technologies include:
-
+* Celo
+* Celopedia
 * ERC-8004
 * 8004scan
 * MCP
 * A2A
 * OpenAPI
-* HTTP
-* Celo infrastructure
-* EVM standards
-* existing identity systems
-* existing domain verification
-* existing reputation/attestation mechanisms
+* HTTP APIs
+* x402
+* stablecoin payments
+* existing agent identity systems
+* existing agent/service registries
+* existing reputation/attestation systems
 
-These are examples, not instructions to blindly use everything.
-
-Evaluate each one and use it where appropriate.
-
-Do NOT create:
-
-* custom agent identity
-* custom blockchain
-* custom token
-* custom wallet
-* custom agent communication protocol
-* custom MCP replacement
-* custom A2A replacement
-* custom payment token
-* unnecessary custom reputation system
-
-unless research proves there is a genuine missing requirement.
+If an existing standard already solves a problem, integrate with it instead of creating a proprietary replacement.
 
 ⸻
 
-7. AGENT / SERVICE DISCOVERY
+4. REQUIRED CELO REFERENCES
 
-The network should be able to discover services from multiple sources.
+Before writing production code, install and study:
 
-Potential sources:
+npx skills add celo-org/celopedia-skills
 
-ERC-8004
+Use the Celopedia skills as a primary technical reference for the Celo implementation.
+
+Also study:
+
+Celo buy-skill
+
+https://github.com/celo-org/buy-skill
+
+Use it as an important reference for agentic purchasing/service transactions.
+
+Celo x402 example
+
+https://github.com/celo-org/x402-celo-example
+
+Use it as an important reference for machine-to-machine/API payments and x402-style payment flows on Celo.
+
 8004scan
-MCP directories
-A2A ecosystems
-direct provider registration
-partner registries
-other compatible registries
 
-Do not assume every source is trustworthy.
+https://8004scan.io
 
-Discovery and verification are separate concepts.
+Use this as an important discovery/reference source for ERC-8004 agents.
 
-An agent being discovered does NOT automatically mean it is verified.
+Do not blindly copy implementations.
+
+Understand what already exists and integrate where appropriate.
 
 ⸻
 
-8. SERVICE REGISTRY
+5. ERC-8004 / AGENT DISCOVERY
 
-Create a simple service registry.
+ERC-8004 should be treated as one of the network’s discovery and identity sources where appropriate.
 
-The registry should represent services in a machine-readable format.
+8004scan can help answer:
 
-A service should be able to describe:
+What agents exist?
 
-id
+Our network should answer a broader question:
+
+What services exist, are they currently available, what can they actually do, can I verify their endpoint, and can my agent execute the service?
+
+Therefore:
+
+Discovery != Verification
+
+An agent/service being listed somewhere does not automatically make it trusted or currently operational.
+
+The network should be capable of discovering services from:
+
+* ERC-8004
+* 8004scan
+* MCP directories
+* A2A ecosystems
+* direct provider registration
+* partner registries
+* compatible service registries
+* other legitimate service sources
+
+Do not require every service to use ERC-8004 if that would unnecessarily exclude useful providers.
+
+The architecture should remain open.
+
+⸻
+
+6. SERVICE VERIFICATION
+
+Every discovered service should have a verification lifecycle.
+
+At minimum verify:
+
+1. Is the endpoint reachable?
+2. Does the advertised protocol actually work?
+3. Can the capabilities be retrieved?
+4. Do the capabilities match the registered description?
+5. Can the service successfully respond to a safe test request?
+6. Can ownership/identity be verified where applicable?
+7. When was it last verified?
+8. Is it currently operational?
+
+Possible states:
+
+pending
+verified
+degraded
+offline
+failed
+
+Verification should expire.
+
+Services should be periodically rechecked.
+
+Do not permanently mark an endpoint as trusted after one successful request.
+
+⸻
+
+7. SERVICE REGISTRY
+
+Create a service registry/index that represents available services.
+
+A service should be able to describe things such as:
+
+service_id
 name
 description
 provider
@@ -368,499 +236,348 @@ currency
 availability
 requirements
 authentication
-verification status
-last verified timestamp
+verification_status
+last_verified_at
 
-Keep the schema extensible.
+Do not over-engineer the schema.
 
-Do not over-engineer it.
+The registry should support services such as:
 
-The registry should support services exposed through:
+Travel
 
-MCP
-A2A
-HTTP/API
-OpenAPI
-other compatible interfaces
+* flight booking
+* hotel booking
+* transport
+* visa assistance
+* travel planning
+
+Food
+
+* restaurants
+* food ordering
+* delivery
+* catering
+
+Local services
+
+* cleaners
+* mechanics
+* electricians
+* photographers
+* repair services
+
+Business
+
+* accounting
+* legal services
+* marketing
+* design
+* research
+* logistics
+
+Digital services
+
+* AI inference
+* image generation
+* video generation
+* voice
+* transcription
+* translation
+* data processing
+
+Commerce
+
+* products
+* suppliers
+* purchasing
+* fulfillment
+
+The architecture must remain generic.
+
+Do not hardcode the network around one category.
 
 ⸻
 
-9. SERVICE REGISTRATION
+8. PROVIDER MODEL
 
-A provider should be able to register a service.
-
-Example concept:
-
-registerService({
-  name: "Lagos Food Agent",
-  description: "Orders food from participating restaurants in Lagos",
-  capabilities: [
-    "search_food",
-    "get_menu",
-    "place_order",
-    "track_order"
-  ],
-  endpoint: "https://example.com/mcp",
-  protocol: "mcp",
-  location: "Lagos, Nigeria"
-})
-
-Do NOT require providers to rebuild their existing systems.
+Existing businesses should not need to rebuild their businesses.
 
 A provider should be able to connect:
 
 * an existing API
-* an MCP server
-* an A2A agent
-* an existing application backend
-* a connector
-* another supported interface
+* existing website
+* existing booking system
+* existing POS
+* existing backend
+* existing agent
+* existing MCP server
+* existing A2A service
+
+We provide a standard integration layer around them.
+
+Create a lightweight provider integration/SDK approach where useful.
+
+The goal is:
+
+Existing service + network integration = agent-accessible service.
 
 ⸻
 
-10. ENDPOINT VERIFICATION
+9. API
 
-This is a major feature.
+Build a clean API that applications and agents can use.
 
-We do NOT simply trust a submitted endpoint.
+Initial API surface should remain small.
 
-When a service is registered or imported, the system should verify it.
+Example:
 
-Minimum verification:
+GET    /services
+POST   /services/search
+GET    /services/:id
+POST   /services/register
+POST   /services/:id/verify
+POST   /requests
+GET    /requests/:id
 
-Is endpoint reachable?
-        ↓
-Does advertised protocol work?
-        ↓
-Can we retrieve capabilities?
-        ↓
-Do capabilities match the registration?
-        ↓
-Does identity/ownership verification pass where applicable?
-        ↓
-Does the service respond correctly?
-        ↓
-Record verification result
+Do not create dozens of endpoints unnecessarily.
 
-A service should have a status such as:
+The API should be designed so that:
 
-pending
-verified
-degraded
-offline
-failed
-
-Verification should have a timestamp.
-
-Verification is not permanent.
-
-The endpoint should periodically be rechecked.
-
-Do NOT claim that a service is verified forever.
+* AI agents can use it
+* applications can use it
+* mobile clients can use it
+* desktop clients can use it
+* plugins/connectors can use it
 
 ⸻
 
-11. ERC-8004
+10. MCP
 
-Investigate ERC-8004 using Celopedia/web research and existing documentation.
+MCP is a first-class interface.
 
-Determine exactly which parts can be reused for:
+The same underlying service network should be accessible through MCP.
 
-* agent identity
-* registration
-* reputation
-* validation
-* endpoint/ownership verification
-
-Do not recreate ERC-8004 functionality.
-
-If an agent already has an ERC-8004 identity, use it where appropriate.
-
-The system should be able to discover an existing agent and associate its service with that identity.
-
-Do not require every service to use ERC-8004 if the service does not need it.
-
-The network should remain broadly compatible.
-
-⸻
-
-12. 8004SCAN
-
-Investigate the available 8004scan APIs and discovery mechanisms.
-
-Where appropriate, use 8004scan as a discovery source.
-
-Conceptually:
-
-8004scan
-   ↓
-Discover agents
-   ↓
-Import candidate
-   ↓
-Inspect metadata
-   ↓
-Verify endpoint
-   ↓
-Normalize service
-   ↓
-Add to service registry
-
-Do not blindly mirror 8004scan.
-
-Our value is not simply having a list of agents.
-
-Our value is:
-
-discovering usable services and verifying that they actually work.
-
-⸻
-
-13. MCP SERVER
-
-Build an MCP interface.
-
-The first tools should remain small.
-
-Minimum:
+Initial MCP tools:
 
 search_services
 get_service
 request_service
 get_request_status
 
-Potential future tools:
+Later, if required:
 
 get_quote
 execute_service
 cancel_request
 pay_for_service
 
-Do not expose unnecessary tools initially.
+Do not expose unnecessary tools.
 
-Example conceptual interaction:
+The MCP layer should make the network usable by:
 
-User:
-"Find me a hotel in Lagos."
-AI Agent
-    ↓
-search_services({
-  category: "hotel",
-  location: "Lagos"
-})
-    ↓
-Verified service results
+* Claude
+* Codex
+* OpenClaw
+* other MCP-compatible agents
+* future AI clients
 
-The agent then decides what to do next.
+The MCP implementation should call the same core service/network logic as the API.
+
+Do not create separate business logic for MCP.
 
 ⸻
 
-14. API
+11. AGENTS ARE FIRST-CLASS USERS
 
-Create a clean developer API.
+The network must not be designed as:
 
-Initial conceptual endpoints:
+Humans use website → agents maybe use API later.
 
-GET  /services
-POST /services/search
-GET  /services/:id
-POST /services/register
-POST /services/:id/verify
-POST /requests
-GET  /requests/:id
+Instead:
 
-Payment endpoints should be added only when the actual payment flow is implemented.
+Humans and agents are both clients of the network.
 
-Do not create 50 endpoints.
+An agent should be able to:
 
-Keep the API small and composable.
+1. discover a service
+2. inspect capabilities
+3. inspect pricing
+4. verify availability
+5. select a service
+6. request execution
+7. pay
+8. receive the result
+9. track the request
 
-⸻
-
-15. SERVICE EXECUTION
-
-The network should not necessarily proxy every request.
-
-Prefer direct communication with providers where possible.
-
-Conceptually:
-
-Requesting Agent
-       ↓
-Our Network
-       ↓
-Discover / verify / route
-       ↓
-Provider Endpoint
-       ↓
-Provider executes service
-       ↓
-Result
-
-The network is the connective layer.
-
-Do not unnecessarily store:
-
-* user prompts
-* private agent conversations
-* provider responses
-* sensitive service data
-
-Only store what is required for:
-
-* service discovery
-* request tracking
-* verification
-* payments
-* auditing
-* reputation/attestation where necessary
+The website is only one interface.
 
 ⸻
 
-16. PAYMENT
+12. COMPOSABILITY
 
-Use Celo infrastructure.
-
-Before implementing payment, use Celopedia to identify the simplest appropriate current Celo payment/stablecoin primitives.
-
-Requirements:
-
-* stable-value payment
-* low transaction cost
-* provider settlement
-* network fee
-* no unnecessary custody
-* clear transaction records
-
-Basic economic flow:
-
-User / Agent
-      ↓
-Service
-      ↓
-Payment
-      ↓
-Provider receives payment
-      ↓
-Network receives small fee
-
-The network should not unnecessarily custody provider funds.
-
-⸻
-
-17. MONETIZATION
-
-The business model should remain simple.
-
-Primary model:
-
-Take a small fee when the network facilitates a successful paid service transaction.
+One of the most important advantages of the network is that services can be composed.
 
 Example:
 
-Service price: $20
-Provider: $19.80
-Network:   $0.20
+User asks:
 
-The actual percentage should be configurable.
+Create a 60-second promotional video for my restaurant.
 
-Do not create subscriptions, tokens, staking requirements, advertising systems, or complicated pricing unless there is a real reason.
+The network could make available:
 
-For digital services where a transaction percentage doesn’t make sense, a small execution/infrastructure fee may be considered later.
+Script service
+↓
+Image service
+↓
+Voice service
+↓
+Video service
+↓
+Music service
 
-But V1 should focus on:
+Another example:
 
-pay-per-successful-service.
+Book me a flight from Lagos to London next Friday under $800.
 
-⸻
+The network can discover relevant travel services, retrieve availability/pricing, and allow the requesting agent to select and execute the appropriate service.
 
-18. NETWORK NEUTRALITY
+Another:
 
-The network should not arbitrarily decide:
+Get jollof rice and chicken delivered to my hotel.
 
-“This provider is the best.”
+The network can connect:
 
-Instead, return structured information.
+Restaurant
++
+Ordering service
++
+Delivery service
 
-Example:
+Do not hardcode these examples.
 
-Provider A
-price: $10
-availability: available
-reputation: ...
-latency: ...
-verification: verified
-Provider B
-price: $8
-availability: available
-reputation: ...
-latency: ...
-verification: verified
-
-The requesting agent/user can make the selection according to its own preferences.
-
-This makes the network an open access layer, not a centralized recommendation engine.
+Build primitives that allow them to emerge from the network.
 
 ⸻
 
-19. VERIFICATION VS REPUTATION
+13. PAYMENTS
 
-Keep these separate.
+The network must make payment a native part of service execution.
 
-Verification
+Use Celo for settlement.
 
-Answers:
+Prioritize stable-value payments and machine-readable payment flows.
 
-Does this endpoint exist and does it appear to do what it claims?
+Research and use:
 
-Reputation
+* Celo stablecoins
+* x402
+* existing Celo payment infrastructure
+* Celo buy-skill
+* existing wallet/payment standards
 
-Answers:
+Do not create a new token.
 
-What history/signals exist around this service?
+Do not create a custom payment currency.
 
-Do not combine them into one meaningless score.
-
-Use existing ERC-8004 reputation/validation mechanisms where appropriate.
-
-Otherwise keep reputation extremely simple for V1.
+Do not build a proprietary payment protocol if an existing standard already works.
 
 ⸻
 
-20. DECENTRALIZATION
+14. BUSINESS MODEL
+
+We must make money.
+
+Keep the initial model extremely simple.
+
+Transaction fee
+
+When the network successfully facilitates a paid service:
+
+Customer pays $20
+Provider receives $19.80
+Network receives $0.20
+
+The exact percentage should be configurable.
+
+The key principle:
+
+We earn when the network creates successful service activity.
+
+Do not begin with:
+
+* subscriptions
+* advertising
+* token speculation
+* complicated DAO economics
+* paid listings
+* unnecessary SaaS tiers
+
+The network should earn from actual economic activity.
+
+The provider should receive the majority of the payment.
+
+Celo’s low-cost settlement should make small service transactions economically practical.
+
+⸻
+
+15. DECENTRALIZATION
 
 Use decentralized infrastructure where it provides real value.
 
-Do NOT make everything onchain.
+Do not put everything onchain simply for ideological reasons.
 
 Good candidates for decentralized/verifiable infrastructure:
 
-Agent identity
-Service registration
-Ownership proofs
-Attestations
-Reputation/validation
-Payment settlement
+* agent identity
+* service identity
+* ownership proofs
+* registration
+* attestations
+* reputation
+* validation
+* payment settlement
 
-Good candidates for offchain infrastructure:
+Better kept offchain:
 
-Search
-API requests
-MCP requests
-Service execution
-Health checks
-Private data
-Routing
-Request payloads
+* search
+* indexing
+* API requests
+* MCP requests
+* routing
+* service execution
+* health checks
+* private data
+* large request payloads
+* temporary execution state
 
 Principle:
 
-Put trust-critical state where it benefits from verifiability. Keep high-frequency/private computation offchain.
+Put trust-critical state where verifiability matters. Keep high-frequency/private execution offchain.
+
+Reuse existing decentralized primitives rather than building custom ones.
 
 ⸻
 
-21. FRONTEND
+16. DATABASE / INDEX
 
-The frontend is NOT the primary product.
+A database/index is allowed.
 
-Build only enough UI for:
+Do not confuse an offchain index with the ultimate source of truth for decentralized trust-critical information.
 
-Homepage
+The database can be used for:
 
-Explain:
+* fast search
+* caching
+* service metadata
+* verification results
+* request state
+* temporary execution data
+* analytics
 
-The service layer for humans and AI agents.
+Potential tables:
 
-Documentation
-
-Explain:
-
-* API
-* MCP
-* provider integration
-* service registration
-* verification
-* payments
-* examples
-
-Service explorer
-
-Show available services and their verification status.
-
-Developer onboarding
-
-Show how to connect an existing service.
-
-Do NOT spend most of the build time on:
-
-* animations
-* dashboards
-* social feeds
-* user profiles
-* elaborate marketplace cards
-* unnecessary UI
-
-The infrastructure matters more.
-
-⸻
-
-22. PLUGIN / CONNECTOR DIRECTION
-
-Design the API/MCP so it can later be packaged into:
-
-* browser extension
-* desktop plugin
-* AI client plugin
-* mobile application
-* developer SDK
-
-The same network should work across:
-
-Computer
-Phone
-Browser
-AI agent
-CLI
-Developer application
-
-Do not create separate business logic for each client.
-
-They should all use the same underlying network interfaces.
-
-⸻
-
-23. PROVIDER SDK
-
-Create a lightweight SDK if it simplifies onboarding.
-
-Example:
-
-npm install @network/sdk
-
-Possible API:
-
-registerService(...)
-verifyService(...)
-getServiceStatus(...)
-
-Do not build an SDK with hundreds of methods.
-
-The objective is:
-
-A provider should be able to connect an existing service with minimal work.
-
-⸻
-
-24. DATABASE
-
-A simple database is fine for metadata/indexing even though the project uses decentralized primitives.
-
-Do NOT force every piece of data onchain.
-
-Possible tables:
-
-services
 providers
+services
 endpoints
 verifications
 requests
@@ -868,277 +585,426 @@ payments
 
 Keep the schema minimal.
 
-Use the database as an index/cache where useful, not as the ultimate source of truth for trust-critical information when an appropriate decentralized primitive exists.
-
 ⸻
 
-25. SECURITY
+17. SECURITY
 
 Treat every external service as untrusted.
 
-Important requirements:
+Implement appropriate protection against:
 
-* endpoint timeouts
+* malicious endpoints
+* SSRF
+* arbitrary URL access
+* request injection
+* malicious webhooks
+* replay attacks
+* fake payment confirmations
+* endpoint impersonation
+* credential leakage
+* excessive requests
+* oversized payloads
+* timeout attacks
+
+Use:
+
+* URL validation
+* endpoint allow/deny controls where appropriate
+* timeouts
 * rate limits
 * request validation
-* authentication where required
-* SSRF protection
-* URL validation
-* malicious endpoint protection
-* webhook validation
+* authentication
+* webhook verification
 * payment verification
 * replay protection
-* secrets never stored in plaintext
-* no private user information unnecessarily stored
-* sandbox external service checks where possible
+* secure secret storage
+* minimal private-data retention
 
-Never blindly execute arbitrary submitted URLs from privileged infrastructure.
+Never blindly execute an arbitrary URL submitted by an external provider from privileged infrastructure.
 
-⸻
-
-26. TESTING
-
-The MVP must demonstrate the complete flow.
-
-At minimum:
-
-Test 1 — Register
-
-Provider registers a service.
-
-Test 2 — Verify
-
-System checks endpoint.
-
-Test 3 — Discover
-
-MCP/API searches the service.
-
-Test 4 — Execute
-
-An agent requests the service.
-
-Test 5 — Payment
-
-A test payment settles on the selected Celo environment.
-
-Test 6 — Fee
-
-The network receives its configured fee.
-
-Test 7 — Failure
-
-An unavailable endpoint is detected and marked appropriately.
+Verification infrastructure itself must be hardened.
 
 ⸻
 
-27. FIRST DEMO
+18. FRONTEND
 
-The first demo should be extremely simple.
+Do not spend most of the development time building a beautiful marketplace UI.
 
-Example:
+The frontend is primarily:
 
-AI Agent
-"Find me a service that can perform X."
-        ↓
-MCP
-        ↓
-Our Network
-        ↓
-Verified service
-        ↓
-Request
-        ↓
-Provider
-        ↓
-Payment
-        ↓
-Result
+Documentation
 
-The demo does NOT need 1,000 services.
+Explain:
 
-It needs to prove the infrastructure works.
+* what the network is
+* how services integrate
+* how agents use it
+* how developers use the API
+* how MCP works
+* how providers connect
+* how payments work
 
-⸻
+Service explorer
 
-28. IMPLEMENTATION RULES
+Allow users to:
 
-Follow these rules strictly:
+* search services
+* inspect capabilities
+* inspect provider
+* see verification status
+* see pricing
+* see supported protocols
 
-1. Do not over-engineer.
-2. Do not build features just because they sound cool.
-3. Reuse existing standards.
-4. Use Celopedia heavily for Celo decisions.
-5. Research before inventing.
-6. Use ERC-8004 where appropriate instead of creating custom identity infrastructure.
-7. Use MCP instead of creating a custom AI-agent protocol.
-8. Use standard APIs/OpenAPI/HTTP where appropriate.
-9. Use Celo’s existing payment infrastructure.
-10. Keep the frontend minimal.
-11. Prioritize API + MCP.
-12. Treat agents as first-class clients.
-13. Treat providers as independent businesses.
-14. Never require providers to abandon their existing infrastructure.
-15. Verify external endpoints before listing them as verified.
-16. Do not put private service requests onchain unnecessarily.
-17. Do not create a token for V1.
-18. Do not create a DAO for V1.
-19. Do not create a custom blockchain.
-20. Do not create a complicated reputation system.
+Developer onboarding
+
+Show:
+
+Connect API
+Connect MCP
+Register service
+Verify service
+Execute service
+Receive payment
+
+The UI should be clean, simple, warm, and functional.
+
+Do not create unnecessary “Web3 UI.”
+
+Do not build a bottom navigation.
+
+Do not make Celo the visual focus.
 
 ⸻
 
-29. RESEARCH-FIRST REQUIREMENT
+19. PLUGIN / CONNECTOR ARCHITECTURE
 
-Before coding, spend a short focused research pass using:
+The network should eventually be usable as a connector/plugin for:
+
+* AI clients
+* browsers
+* desktop applications
+* mobile applications
+* agent frameworks
+* developer tools
+
+Do not build every plugin immediately.
+
+Instead:
+
+Design the API/MCP layer so that these integrations can be added without changing the core network.
+
+⸻
+
+20. MOBILE + COMPUTER
+
+The network should work across:
+
+* computers
+* phones
+* AI agents
+* developer environments
+
+Do not create separate backend architectures for each.
+
+Everything should consume the same core service infrastructure.
+
+⸻
+
+21. MVP
+
+We need a working vertical slice quickly.
+
+Do not spend the first day building an enormous protocol.
+
+The MVP must prove:
+
+Step 1
+
+A provider registers a service.
+
+Step 2
+
+The network discovers/indexes the service.
+
+Step 3
+
+The network verifies the endpoint.
+
+Step 4
+
+An AI agent discovers the service through MCP/API.
+
+Step 5
+
+The agent requests the service.
+
+Step 6
+
+Payment is handled through Celo.
+
+Step 7
+
+The provider receives payment.
+
+Step 8
+
+The network takes a small fee.
+
+Step 9
+
+The request/result is tracked.
+
+Step 10
+
+If the endpoint becomes unavailable, the service status changes accordingly.
+
+If these work end-to-end, the MVP has proven the fundamental thesis.
+
+⸻
+
+22. ONE-DAY BUILD PRIORITY
+
+Use AI coding tools aggressively.
+
+Use the installed Celopedia skills before implementation.
+
+Do not tell me this requires weeks of development.
+
+We are building a focused vertical slice.
+
+Prioritize:
+
+1. Service registry
+2. Provider registration
+3. Verification
+4. Service discovery
+5. API
+6. MCP
+7. Celo payment
+8. Network fee
+9. Request tracking
+10. Minimal docs/explorer
+
+Everything else is secondary.
+
+⸻
+
+23. IMPLEMENTATION WORKFLOW
+
+Before coding:
+
+Phase 1 — Research
+
+Use:
 
 npx skills add celo-org/celopedia-skills
 
-Then investigate the current Celo ecosystem and existing standards.
+Read the relevant Celopedia skills.
 
-Create a short internal implementation note containing:
+Study:
 
-Existing Celo primitive → what it solves → how we will use it
-Existing standard → what it solves → how we will use it
-Missing functionality → what we actually need to build
+* current Celo architecture
+* stablecoin/payment options
+* wallet/payment tooling
+* x402
+* buy-skill
+* ERC-8004
+* 8004scan
+* MCP
+* A2A
+* OpenAPI
 
-Do not produce a giant research report.
+Determine what can be reused.
 
-The goal is to avoid reinventing anything.
+Phase 2 — Architecture
+
+Produce a short implementation note covering:
+
+Architecture
+Components
+Data model
+Service lifecycle
+Verification lifecycle
+Payment flow
+API
+MCP
+Celo integration
+Security boundaries
+Offchain/onchain responsibilities
+
+Keep it concise.
+
+Phase 3 — Build
+
+Implement the smallest end-to-end flow.
+
+Phase 4 — Test
+
+Demonstrate:
+
+Provider
+↓
+Register service
+↓
+Network discovers it
+↓
+Network verifies endpoint
+↓
+Agent discovers it
+↓
+Agent requests service
+↓
+Payment occurs
+↓
+Provider receives payment
+↓
+Network receives fee
+↓
+Result returned
+
+Phase 5 — Demo
+
+Create one compelling real-world example.
+
+The demo should make the network’s value obvious in less than a minute.
 
 ⸻
 
-30. TECHNICAL DECISION PRINCIPLE
+24. DEMO SCENARIO
 
-When choosing between:
+Use a simple service where the entire flow can actually execute.
 
-Build ourselves
-vs
-Use existing infrastructure
+For example:
 
-default to:
+User/Agent:
+"Find me a service that can perform X."
+Network:
+Discovers providers.
+Network:
+Shows:
+- capability
+- price
+- availability
+- verification
+- provider
+Agent:
+Selects provider.
+Network:
+Executes request.
+Payment:
+Settles on Celo.
+Provider:
+Receives payment.
+Network:
+Receives fee.
+Agent:
+Receives result.
+
+The demo should show that we are not another directory.
+
+We are the infrastructure that turns discovered services into executable, payable services.
+
+⸻
+
+25. WHAT NOT TO BUILD
+
+Do NOT build:
+
+* a new blockchain
+* a new token
+* a new wallet
+* a new agent identity protocol
+* a new MCP replacement
+* a new payment protocol
+* a new decentralized storage protocol
+* a giant marketplace UI
+* a social network
+* unnecessary DAO mechanics
+* speculative token economics
+* complicated NFT infrastructure
+* dozens of unnecessary API endpoints
 
 Use existing infrastructure.
 
-Only build ourselves when:
-
-1. no suitable standard exists,
-2. existing infrastructure cannot satisfy the requirement,
-3. or our specific service-network layer is the actual product.
+Our value is in connecting existing infrastructure into an open service network.
 
 ⸻
 
-31. MVP SUCCESS CRITERIA
+26. PRODUCT DIFFERENTIATION
 
-The MVP is successful if we can demonstrate:
+The network should sit between:
 
-Provider
+Humans
+AI Agents
+Applications
+        ↓
+OPEN SERVICE NETWORK
+        ↓
+Existing Services
+Existing Businesses
+Existing Agents
+Existing APIs
+Existing MCP Servers
+Existing Marketplaces
+Existing Providers
 
-Can register a service.
+We do not need to own the services.
 
-Network
+We do not need to replace the providers.
 
-Can discover and verify it.
+We do not need to host every service.
 
-Agent
-
-Can find it through MCP.
-
-Agent
-
-Can request/use it.
-
-Payment
-
-Can settle through Celo.
-
-Network
-
-Can take a small fee.
-
-Provider
-
-Receives the remaining payment.
-
-Developer
-
-Can integrate without using the frontend.
-
-If these work, stop.
-
-Do not keep adding features.
+We make them discoverable, verifiable, callable, composable, and payable.
 
 ⸻
 
-32. FINAL PRODUCT MODEL
+27. FINAL SUCCESS CRITERIA
 
-The finished architecture should conceptually look like:
+The implementation is successful if a developer can:
 
-                         SERVICE NETWORK
-                                │
-             ┌──────────────────┼──────────────────┐
-             │                  │                  │
-            API                MCP              SDK
-             │                  │                  │
-        Applications        AI Agents          Providers
-             │                  │                  │
-             └──────────────────┼──────────────────┘
-                                │
-                        Service Discovery
-                                │
-                    ┌───────────┴───────────┐
-                    │                       │
-              Existing agents         Existing businesses
-                    │                       │
-              ERC-8004 / A2A          APIs / MCP / HTTP
-                    │                       │
-                    └───────────┬───────────┘
-                                │
-                         Verification
-                                │
-                           Execution
-                                │
-                           Payment
-                                │
-                              CELO
-                                │
-                     Provider + Network fee
+1. Register an existing service.
+2. Have the network discover it.
+3. Have the network verify it.
+4. Search for it through API.
+5. Search for it through MCP.
+6. Request the service.
+7. Pay for it using Celo.
+8. Confirm payment.
+9. Deliver the provider’s share.
+10. Take the network fee.
+11. Track the request.
+12. Detect when the service becomes unavailable.
 
-The core loop is:
-
-Discover → Verify → Select → Execute → Pay
-
-That loop is the product.
-
-Everything else should support it.
+And an AI agent can perform the entire process without needing to understand the internal implementation.
 
 ⸻
 
-33. START NOW
+FINAL PRODUCT DEFINITION
 
-First:
+Build:
 
-npx skills add celo-org/celopedia-skills
+An open service network for the agentic economy — infrastructure that lets humans and AI agents discover, verify, access, compose, execute, and pay for services across the internet.
 
-Then inspect the available Celopedia skills and documentation.
+The website is the interface.
 
-Research the current Celo ecosystem and existing standards.
+The API is the developer interface.
 
-Then produce:
+MCP is the agent interface.
 
-1. a minimal architecture,
-2. database/schema proposal,
-3. API specification,
-4. MCP tool specification,
-5. provider registration format,
-6. verification flow,
-7. Celo payment flow,
-8. project folder structure.
+The registry is the discovery layer.
 
-After that, immediately implement the MVP.
+Verification is the trust layer.
 
-Do not wait for approval between every small implementation decision.
+Celo is the settlement layer.
 
-Make sensible engineering decisions, document them briefly, and prioritize getting the complete Discover → Verify → Execute → Pay loop working.
+The service providers remain the service providers.
 
-The final result should be a working developer/infrastructure product, not a mockup.
+The network earns from successful service activity.
+
+Build the smallest working version that proves this entire loop.
+
+Do not over-engineer.
+
+Do not reinvent existing infrastructure.
+
+Use what already exists. Connect it. Verify it. Make it executable. Make it payable.
